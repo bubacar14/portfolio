@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Développeur</title>
+    <style>
+        :root {
+            --primary: #2768ff;
+            --dark: #13111C;
+            --light: #ffffff;
+            --gradient: linear-gradient(145deg, #1e25e9, #27b0b0);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Gradient Backgrounds */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(30, 196, 233, 0.15), transparent 25%),
+                radial-gradient(circle at 70% 70%, rgba(39, 46, 176, 0.15), transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(103, 58, 183, 0.1), transparent 50%);
+            z-index: -1;
+            animation: gradientMove 20s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        /* Floating Shapes */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .shape-1 {
+            top: 10%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #1e73e9, transparent);
+            animation: floatAnimation 8s infinite;
+        }
+
+        .shape-2 {
+            bottom: 20%;
+            right: 15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #2752b0, transparent);
+            animation: floatAnimation 12s infinite;
+        }
+
+        @keyframes floatAnimation {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(20px, -20px);
+            }
+
+            50% {
+                transform: translate(-20px, 20px);
+            }
+
+            75% {
+                transform: translate(-20px, -20px);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 20px;
+            z-index: 100;
+            background: transparent;
+        }
+
+        .nav-container {
+            max-width: 800px;
+            /* Réduit de 1200px à 800px */
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 12px 25px;
+            /* Réduit le padding */
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            /* Réduit l'espacement */
+            margin: 0 auto;
+        }
+
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 12px;
+            /* Réduit le padding */
+            border-radius: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 0.9rem;
+            /* Réduit légèrement la taille de la police */
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .logo {
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            max-height: 200%;
+            max-width: 200%;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                top: 10px;
+                padding: 0 15px;
+            }
+
+            .nav-container {
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+
+            .nav-link {
+                padding: 5px 10px;
+                font-size: 14px;
+            }
+        }
+
+        /* Hamburger Menu Button */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .hamburger-icon {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--light);
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .hamburger-icon::before,
+        .hamburger-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--light);
+            transition: transform 0.3s;
+        }
+
+        .hamburger-icon::before {
+            top: -8px;
+        }
+
+        .hamburger-icon::after {
+            bottom: -8px;
+        }
+
+        /* Active Hamburger Animation */
+        .mobile-menu-toggle.active .hamburger-icon {
+            background: transparent;
+        }
+
+        .mobile-menu-toggle.active .hamburger-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+
+        /* Sidebar Menu */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(19, 17, 28, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transition: right 0.3s ease-in-out;
+            padding: 80px 20px 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 12px 20px;
+            border-radius: 10px;
+            transition: background 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-nav-link:hover,
+        .sidebar-nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Overlay */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            z-index: 998;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Media Query */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-container {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(145deg, #ffffff, #1e91e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--gradient);
+            color: var(--light);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(30, 135, 233, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(30, 203, 233, 0.5);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+
+        .hero-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+            overflow: hidden;
+            animation: borderAnimation 8s ease-in-out infinite;
+            background: linear-gradient(145deg, rgba(30, 142, 233, 0.3), rgba(39, 87, 176, 0.3));
+            padding: 5px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+            }
+
+            50% {
+                border-radius: 30% 60% 70% 40%/50% 60% 30% 60%;
+            }
+
+            100% {
+                border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(145deg, rgba(30, 213, 233, 0.3), rgba(41, 39, 176, 0.3));
+            animation: floatBubble 6s ease-in-out infinite;
+        }
+
+        .bubble-1 {
+            width: 60px;
+            height: 60px;
+            top: -20px;
+            right: 20%;
+            animation-delay: 1s;
+        }
+
+        .bubble-2 {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            right: -20px;
+            animation-delay: 0.5s;
+        }
+
+        .bubble-3 {
+            width: 40px;
+            height: 40px;
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes floatBubble {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-image-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .bubble {
+                display: none;
+            }
+        }
+
+        /* Ajout des styles pour la section compétences */
+        .skills {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .skill-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, background 0.3s;
+            cursor: pointer;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .skill-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 5px;
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Animation pour le pourcentage */
+        .skill-percentage {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        @keyframes fillBar {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: var(--fill-percentage);
+            }
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+            background: linear-gradient(145deg, #ffffff, #1ed1e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card {
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 20px;
+            background: rgba(30, 179, 233, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .portfolio-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(30, 186, 233, 0.2), rgba(78, 39, 176, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .portfolio-item:hover::after {
+            opacity: 1;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1) rotateY(5deg);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 2rem;
+            /*background-color: #1a1a1a;*/
+            color: #fff;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 4rem;
+        }
+
+        .contact-form-wrapper {
+            flex: 1;
+            background: #2b018628;
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+
+        .contact-title {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+
+        .contact-subtitle {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            width: 100%;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: #3a3a3a;
+            border: 1px solid #4a4a4a;
+            border-radius: 0.5rem;
+            color: #fff;
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        textarea.form-input {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: linear-gradient(to right, #2563eb, #0ea5e9);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #9ca3af;
+        }
+
+        .contact-info-item svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: #60a5fa;
+        }
+
+        .contact-illustration {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            margin-top: 2rem;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .services-grid,
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .shape {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <header>
+        <nav class="container nav-container">
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Accueil</a>
+                <a href="#skills" class="nav-link">Compétences</a>
+                <div class="logo">
+                    <img src="./images/logo.png" alt="Logo Basketball">
+                </div>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#portfolio" class="nav-link">Portfolio</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </nav>
+        <button class="mobile-menu-toggle">
+            <span class="hamburger-icon"></span>
+        </button>
+
+        <!-- Overlay -->
+        <div class="sidebar-overlay"></div>
+
+        <!-- Menu Sidebar -->
+        <div class="sidebar">
+            <nav class="sidebar-nav-links">
+                <a href="#accueil" class="sidebar-nav-link active">Accueil</a>
+                <a href="#competences" class="sidebar-nav-link">Compétences</a>
+                <a href="#services" class="sidebar-nav-link">Services</a>
+                <a href="#portfolio" class="sidebar-nav-link">Portfolio</a>
+                <a href="#contact" class="sidebar-nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-container">
+                <div class="hero-content fade-in">
+                    <h1>Je suis Développeur Full Stack</h1>
+                    <p>Spécialisé dans la création d'applications web modernes et performantes.</p>
+                    <a href="#contact" class="btn">Me Contacter</a>
+                </div>
+                <div class="hero-image-container fade-in">
+                    <div class="hero-image">
+                        <img src="./images/hero-img.jpg" alt="Photo du développeur">
+                    </div>
+                    <div class="bubble bubble-1"></div>
+                    <div class="bubble bubble-2"></div>
+                    <div class="bubble bubble-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Ajout de la section compétences après la section services -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Mes Compétences</h2>
+            <div class="skills-grid">
+                <div class="skill-item fade-in">
+                    <div class="skill-info">
+                        <span>HTML/CSS</span>
+                        <span class="skill-percentage">90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="--fill-percentage: 90%"></div>
+                    </div>
+                </div>
+                <div class="skill-item fade-in">
+                    <div class="skill-info">
+                        <span>JavaScript</span>
+                        <span class="skill-percentage">85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="--fill-percentage: 85%"></div>
+                    </div>
+                </div>
+                <div class="skill-item fade-in">
+                    <div class="skill-info">
+                        <span>React</span>
+                        <span class="skill-percentage">80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="--fill-percentage: 80%"></div>
+                    </div>
+                </div>
+                <div class="skill-item fade-in">
+                    <div class="skill-info">
+                        <span>Node.js</span>
+                        <span class="skill-percentage">75%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="--fill-percentage: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Mes Services</h2>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">🌐</div>
+                    <h3>Développement Frontend</h3>
+                    <p>Création d'interfaces utilisateur modernes et réactives</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Développement Backend</h3>
+                    <p>Architecture et développement de serveurs robustes</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">📱</div>
+                    <h3>Applications Mobiles</h3>
+                    <p>Développement d'applications mobiles cross-platform</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">Portfolio</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item fade-in">
+                    <img src="./images/hero-img.jpg" alt="Projet 1">
+                </div>
+                <div class="portfolio-item fade-in">
+                    <img src="./images/Session-studio-067.jpg" alt="Projet 2">
+                </div>
+                <div class="portfolio-item fade-in">
+                    <img src="./images/Session-studio-037.jpg" alt="Projet 3">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact-container">
+            <div class="contact-form-wrapper">
+                <h2 class="contact-title">Contactez-nous</h2>
+                <p class="contact-subtitle">Nous sommes là pour vous ! Comment pouvons-nous vous aider ?</p>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="Entrez votre nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="Entrez votre adresse e-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-input" placeholder="Votre message..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24"
+                            height="24">
+                            <path
+                                d="M16.6 14c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.7-.3-1.4-.7-2-1.2-.5-.5-1-1.1-1.4-1.7-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.1.2-.3.2-.4.1-.1.1-.3 0-.4-.1-.1-.6-1.3-.8-1.8-.1-.7-.3-.7-.5-.7h-.5c-.2 0-.5.2-.6.3-.6.6-.9 1.3-.9 2.1.1.9.4 1.8 1 2.6 1.1 1.6 2.5 2.9 4.2 3.7.5.2.9.4 1.4.5.5.2 1 .2 1.6.1.7-.1 1.3-.6 1.7-1.2.2-.4.2-.8.1-1.2l-.4-.2m2.5-9.1C15.2 1 8.9 1 5 4.9c-3.2 3.2-3.8 8.1-1.6 12L2 22l5.3-1.4c1.5.8 3.1 1.2 4.7 1.2 5.5 0 9.9-4.4 9.9-9.9.1-2.6-1-5.1-2.8-7m-2.7 14c-1.3.8-2.8 1.3-4.4 1.3-1.5 0-2.9-.4-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3c-2.4-3.6-1.9-8.3 1.2-11.3 3.7-3.7 9.9-3.7 13.6 0 3.7 3.7 3.7 9.9 0 13.6">
+                            </path>
+                        </svg>
+                        Contactez via WhatsApp
+                    </button>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/6916004-hotline-operateur-illustration-concept-vectoriel.jpg"
+                    alt="Contact illustration" class="contact-illustration">
+                <div class="contact-info-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span>Saint-louis Senegal</span>
+                </div>
+
+                <div class="contact-info-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    <span>+221 77 751 96 59</span>
+                </div>
+
+                <div class="contact-info-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>bouba@Gmail.Com</span>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" target="_blank">📱</a>
+                <a href="#" target="_blank">💼</a>
+                <a href="#" target="_blank">📧</a>
+            </div>
+            <p>&copy; 2024 Portfolio Développeur. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animation au défilement
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(element);
+        });
+
+        // Navigation fluide
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation du fond au défilement
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelector('.shape-1').style.transform = `translate(${scrolled * 0.1}px, ${scrolled * 0.1}px)`;
+            document.querySelector('.shape-2').style.transform = `translate(${scrolled * -0.1}px, ${scrolled * -0.1}px)`;
+        });
+
+        // Animation du curseur personnalisé
+        const cursor = document.createElement('div');
+        cursor.classList.add('cursor');
+        document.body.appendChild(cursor);
+
+        const cursorStyle = document.createElement('style');
+        cursorStyle.textContent = `
+            .cursor {
+                width: 20px;
+                height: 20px;
+                border: 2px solid var(--primary);
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                transition: transform 0.2s;
+                transform: translate(-50%, -50%);
+            }
+            
+            .cursor.hover {
+                transform: translate(-50%, -50%) scale(1.5);
+                background-color: rgba(233, 30, 99, 0.1);
+            }
+        `;
+        document.head.appendChild(cursorStyle);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Effet de survol pour les éléments interactifs
+        const interactiveElements = document.querySelectorAll('a, button, .portfolio-item, .service-card');
+        interactiveElements.forEach(elem => {
+            elem.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            elem.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Animation des cartes de service au survol
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const angleX = (y - centerY) / 20;
+                const angleY = (centerX - x) / 20;
+
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.05)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // Formulaire de contact avec animation
+        const form = document.querySelector('.contact-form');
+        const inputs = form.querySelectorAll('.form-input');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('focused');
+            });
+
+            input.addEventListener('blur', () => {
+                if (!input.value) {
+                    input.parentElement.classList.remove('focused');
+                }
+            });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Animation de soumission
+            const btn = form.querySelector('.btn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = '';
+                // Ici vous pouvez ajouter la logique d'envoi du formulaire
+            }, 200);
+        });
+
+        // Effet parallaxe sur le texte du héros
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero-content');
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            hero.style.transform = `translate(${mouseX * 20}px, ${mouseY * 20}px)`;
+        });
+
+        // Ajout du script pour l'animation des barres de compétences
+        const observerSkills = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.skill-progress');
+                    progressBars.forEach(bar => {
+                        const percentage = bar.style.getPropertyValue('--fill-percentage');
+                        bar.style.width = percentage;
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.skill-item').forEach(item => {
+            observerSkills.observe(item);
+        });
+
+        // Modification du gestionnaire du formulaire
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.open('https://wa.me/+221777519659', '_blank');
+        });
+
+        // Ajouter la classe active au lien de navigation actif
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        function setActiveLink() {
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', setActiveLink);
+        window.addEventListener('load', setActiveLink);
+
+
+
+
+
+
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav-link');
+
+            // Toggle menu
+            menuToggle.addEventListener('click', function () {
+                menuToggle.classList.toggle('active');
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+
+            // Fermer le menu quand on clique sur l'overlay
+            overlay.addEventListener('click', function () {
+                menuToggle.classList.remove('active');
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            // Fermer le menu quand on clique sur un lien
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    menuToggle.classList.remove('active');
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
